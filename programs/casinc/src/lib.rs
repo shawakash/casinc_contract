@@ -1,6 +1,6 @@
 use anchor_lang::prelude::*;
 
-declare_id!("5V4zAh34TPQdrbXqBNbEbW7o9zknXceM8fVK5VK5HnM7");
+declare_id!("FtZ7YQmqr9px1rtr3EzcYrZ6SYXUgvTQMMESDAwyT1mG");
 
 #[program]
 pub mod casinc {
@@ -138,12 +138,12 @@ pub struct GameParameters {
 
 #[account]
 pub struct UserState {
-    user: Pubkey,
-    pub deposit: u64,
-    pub winnings: u64,
-    pub unlock_time: i64,
-    pub bump: u8,
-}
+    pub user: Pubkey,     // 32 bytes
+    pub deposit: u64,     // 8 bytes
+    pub winnings: u64,    // 8 bytes
+    pub unlock_time: i64, // 8 bytes
+    pub bump: u8,         // 1 byte
+} // Total = 57 bytes (add padding)
 
 #[account]
 pub struct WithdrawalRequest {
@@ -165,7 +165,13 @@ pub struct Initialize<'info> {
 
 #[derive(Accounts)]
 pub struct InitializeUser<'info> {
-    #[account(init, payer = user, space = 8 + 8 + 8 + 8 + 1, seeds = [b"user_state", user.key().as_ref()], bump)]
+    #[account(
+        init,
+        payer = user,
+        space = 8 + 32 + 8 + 8 + 8 + 1 + 8, // 8-byte anchor prefix + fields + padding
+        seeds = [b"user_state", user.key().as_ref()],
+        bump
+    )]
     pub user_state: Account<'info, UserState>,
     #[account(mut)]
     pub user: Signer<'info>,

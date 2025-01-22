@@ -16,7 +16,14 @@ dotenv.config({ path: __dirname + "/../.env" });
 describe("casinc", () => {
   const provider = anchor.AnchorProvider.env();
   anchor.setProvider(provider);
-  const program = anchor.workspace.Casinc as Program<Casinc>;
+  const programId = new PublicKey(
+    "FtZ7YQmqr9px1rtr3EzcYrZ6SYXUgvTQMMESDAwyT1mG"
+  );
+  const program = new anchor.Program<Casinc>(
+    require("../target/idl/casinc.json"),
+    programId,
+    provider
+  ) as Program<Casinc>;
 
   // Load keypairs with proper validation
   const admin1 = Keypair.fromSecretKey(bs58.decode(process.env.ADMIN1_SK));
