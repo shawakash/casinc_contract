@@ -1,0 +1,6 @@
+[submodule "contract/casinc-eth/lib/forge-std"]
+	path = contract/casinc-eth/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
+[submodule "contract/casinc-eth/lib/openzeppelin-contracts"]
+	path = contract/casinc-eth/lib/openzeppelin-contracts
+	url = https://github.com/openzeppelin/openzeppelin-contracts
